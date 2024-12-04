@@ -11,5 +11,4 @@ resource "helm_release" "fsx_lustre_csi_driver" {
     name  = "controller.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
     value = "${aws_iam_role.fsx_csi_driver_role.arn}"
   }
-    
 }
