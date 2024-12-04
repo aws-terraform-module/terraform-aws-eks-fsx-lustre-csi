@@ -22,23 +22,23 @@ variable "product_name" {
 variable "eks_cluster_name" {
   description = "EKS cluster Name/data.terraform_remote_state.eks.outputs.cluster_name"
   type = string
-  default = ""
+  validation {
+    condition     = length(var.eks_cluster_name) > 0
+    error_message = "EKS cluster name must be provided."
+  }
 }
 
 variable "aws_iam_openid_connect_provider_arn" {
   description = "The ARN assigned by AWS for this provider/data.terraform_remote_state.eks.outputs.aws_iam_openid_connect_provider_arn"
   type = string
-  default = ""
 }
 
 variable "eks_cluster_endpoint" {
   description = "The hostname (in form of URI) of Kubernetes master/data.terraform_remote_state.eks.outputs.cluster_endpoint"
   type = string
-  default = ""
 }
 
 variable "eks_cluster_certificate_authority_data" {
   description = "PEM-encoded root certificates bundle for TLS authentication./data.terraform_remote_state.eks.outputs.cluster_certificate_authority_data"
   type = string
-  default = ""
 }
