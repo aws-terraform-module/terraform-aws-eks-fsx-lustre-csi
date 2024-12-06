@@ -9,4 +9,5 @@ locals {
   }
   eks_cluster_name = var.eks_cluster_name
   aws_iam_openid_connect_provider_extract_from_arn = element(split("oidc-provider/", "${var.aws_iam_openid_connect_provider_arn}"), 1)
+  final_security_group_ids = var.fsx_security_group_ids != "" ? var.fsx_security_group_ids : aws_security_group.fsx_sg[0].id
 } 
