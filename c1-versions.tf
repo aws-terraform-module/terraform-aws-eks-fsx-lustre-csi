@@ -24,12 +24,12 @@ terraform {
   }
 #   # Adding Backend as S3 for Remote State Storage
 #   backend "s3" {
-#      bucket = "private-windows-mdaas-eks-tf-lock"
+#      bucket = "private-windows-nim-eks-tf-lock"
 #      key    = "fsx-lustre.tfstate"
 #      region = "us-east-1" 
 
 #      # For State Locking
-#      dynamodb_table = "private-windows-mdaas-eks-tf-lock"    
+#      dynamodb_table = "private-windows-nim-eks-tf-lock"    
 #   }     
 }
 
