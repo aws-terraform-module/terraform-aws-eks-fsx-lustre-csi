@@ -109,13 +109,21 @@ variable "fsx_copy_tags_to_backups" {
 variable "fsx_storage_throughput" {
   description = "Throughput (in MB/s) per unit of storage for the FSx Lustre file system."
   type        = number
-  default     = 200  # Example throughput
+  default     = 125  # Example throughput
+  validation {
+    condition     = contains([125, 250, 500, 1000], var.fsx_storage_throughput)
+    error_message = "Storage throughput must be one of: 125, 250, 500, 1000 MB/s."
+  }
 }
 
 variable "fsx_data_compression" {
   description = "Compression method for FSx Lustre file system data (NONE or LZ4)."
   type        = string
   default     = "NONE"
+  validation {
+    condition     = contains(["NONE", "LZ4"], var.fsx_data_compression)
+    error_message = "Data compression must be either NONE or LZ4."
+  }
 }
 
 # FSx maintenance settings
@@ -129,7 +137,7 @@ variable "fsx_maintenance_window" {
 variable "fsx_version" {
   description = "(Optional) Sets the Lustre version for the file system that you're creating. Valid values are 2.10 for `SCRATCH_1`, `SCRATCH_2` and `PERSISTENT_1` deployment types. Valid values for 2.12 include all deployment types."
   type        = string
-  default     = "2.12"
+  default     = "2.15"
 }
 
 variable "fsx_deployment_type" {
