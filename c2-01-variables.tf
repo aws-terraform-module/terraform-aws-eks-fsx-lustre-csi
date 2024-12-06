@@ -101,7 +101,7 @@ variable "fsx_backup_start_time" {
 
 variable "fsx_copy_tags_to_backups" {
   description = "(Optional) A boolean flag indicating whether tags for the file system should be copied to backups. Applicable for `PERSISTENT_1` and `PERSISTENT_2` deployment_type. The default value is false."
-  type        = boolean
+  type        = bool
   default     = false
 }
 
