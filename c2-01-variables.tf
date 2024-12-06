@@ -72,9 +72,8 @@ variable "eks_cluster_certificate_authority_data" {
 
 # AWS-specific parameters for FSx Lustre
 variable "fsx_subnet_id" {
-  description = "The ID of the subnet where the FSx Lustre file system will be deployed."
+  description = "The ID of the subnet where the FSx Lustre file system will be deployed. exp: `subnet-0eabfaa81fb22bcaf`"
   type        = string
-  default     = "subnet-0eabfaa81fb22bcaf"  # Replace with your actual subnet ID
 }
 
 variable "fsx_security_group_ids" {
@@ -88,6 +87,10 @@ variable "fsx_backup_retention_days" {
   description = "(Optional) The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. only valid for PERSISTENT_1 and PERSISTENT_2 deployment_type."
   type        = number
   default     = 0  # Default is 1 day of backup retention
+  validation {
+    condition     = var.fsx_backup_retention_days >= 0 && var.fsx_backup_retention_days <= 90
+    error_message = "Backup retention days must be between 0 and 90."
+  }
 }
 
 variable "fsx_backup_start_time" {

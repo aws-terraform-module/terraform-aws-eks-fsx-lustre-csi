@@ -1,3 +1,7 @@
+data "aws_vpc" "example" {
+  id = var.vpc_id  # replace with your VPC ID
+}
+
 resource "aws_security_group" "fsx_sg" {
   count = var.fsx_security_group_ids == "" ? 1 : 0
 
@@ -14,7 +18,7 @@ resource "aws_security_group_rule" "fsx_ingress" {
   from_port   = 988
   to_port     = 988
   protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
+  cidr_blocks = [data.aws_vpc.example.cidr_block]
   security_group_id = aws_security_group.fsx_sg[0].id
 
   description = "Allow FSx Lustre traffic on port 988"
@@ -27,7 +31,7 @@ resource "aws_security_group_rule" "fsx_ingress_1018_1023" {
   from_port   = 1018
   to_port     = 1023
   protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
+  cidr_blocks = [data.aws_vpc.example.cidr_block]
   security_group_id = aws_security_group.fsx_sg[0].id
 
   description = "Allow FSx Lustre traffic on ports 1018-1023"
