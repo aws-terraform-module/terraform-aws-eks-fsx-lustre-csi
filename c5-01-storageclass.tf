@@ -18,7 +18,10 @@ resource "kubernetes_storage_class" "fsx_lustre" {
     dataCompressionType           = var.fsx_data_compression
     weeklyMaintenanceStartTime    = var.fsx_maintenance_window
     fileSystemTypeVersion         = var.fsx_version
-    extraTags                     = var.fsx_extra_tags
+    extraTags                      = join(",", compact([
+      "Name=${local.name}-StorageClass", # Default tag
+      var.fsx_extra_tags            # Append client-provided tags, if any
+    ]))
   }
 
   mount_options = var.fsx_mount_options
