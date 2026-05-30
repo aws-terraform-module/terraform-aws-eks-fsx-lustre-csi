@@ -2,20 +2,20 @@
 # AWS Region
 variable "aws_region" {
   description = "Region in which AWS Resources to be created"
-  type = string
-  default = "us-east-1"  
+  type        = string
+  default     = "us-east-1"
 }
 
 # Environment Variable
 variable "environment" {
   description = "Environment Variable used as a prefix"
-  type = string
-  default = "dev"
+  type        = string
+  default     = "dev"
 }
 # Product Name
 variable "product_name" {
   description = "Product Name in the large organization this Infrastructure belongs"
-  type = string
+  type        = string
   validation {
     condition     = length(var.product_name) > 0
     error_message = "Product name must not be empty."
@@ -36,7 +36,7 @@ variable "eks_cluster_name" {
       }
     }
   EOT
-  type = string
+  type        = string
   validation {
     condition     = length(var.eks_cluster_name) > 0
     error_message = "EKS cluster name must be provided."
@@ -45,7 +45,7 @@ variable "eks_cluster_name" {
 
 variable "aws_iam_openid_connect_provider_arn" {
   description = "The ARN assigned by AWS for this provider/data.terraform_remote_state.eks.outputs.aws_iam_openid_connect_provider_arn"
-  type = string
+  type        = string
   validation {
     condition     = can(regex("^arn:aws:iam::[0-9]{12}:oidc-provider/", var.aws_iam_openid_connect_provider_arn))
     error_message = "The OIDC provider ARN must be valid and start with 'arn:aws:iam::' followed by the account ID and ':oidc-provider/'."
@@ -54,7 +54,7 @@ variable "aws_iam_openid_connect_provider_arn" {
 
 variable "eks_cluster_endpoint" {
   description = "The hostname (in form of URI) of Kubernetes master/data.terraform_remote_state.eks.outputs.cluster_endpoint"
-  type = string
+  type        = string
   validation {
     condition     = can(regex("^https://", var.eks_cluster_endpoint))
     error_message = "The cluster endpoint must be a valid HTTPS URL."
@@ -63,7 +63,7 @@ variable "eks_cluster_endpoint" {
 
 variable "eks_cluster_certificate_authority_data" {
   description = "PEM-encoded root certificates bundle for TLS authentication./data.terraform_remote_state.eks.outputs.cluster_certificate_authority_data"
-  type = string
+  type        = string
   validation {
     condition     = can(base64decode(var.eks_cluster_certificate_authority_data))
     error_message = "The certificate authority data must be base64 encoded."
@@ -79,14 +79,14 @@ variable "fsx_subnet_id" {
 variable "fsx_security_group_ids" {
   description = "Comma-separated list of security group IDs to associate with the FSx Lustre file system. Leave empty to create a new security group."
   type        = string
-  default     = ""  # Empty by default, meaning Terraform will create a new security group
+  default     = "" # Empty by default, meaning Terraform will create a new security group
 }
 
 # FSx configuration for backup and maintenance
 variable "fsx_backup_retention_days" {
   description = "(Optional) The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. only valid for PERSISTENT_1 and PERSISTENT_2 deployment_type."
   type        = number
-  default     = 0  # Default is 1 day of backup retention
+  default     = 0 # Default is 1 day of backup retention
   validation {
     condition     = var.fsx_backup_retention_days >= 0 && var.fsx_backup_retention_days <= 90
     error_message = "Backup retention days must be between 0 and 90."
@@ -96,7 +96,7 @@ variable "fsx_backup_retention_days" {
 variable "fsx_backup_start_time" {
   description = "(Optional) A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily. only valid for `PERSISTENT_1` and `PERSISTENT_2` deployment_type. Requires automatic_backup_retention_days to be set."
   type        = string
-  default     = "00:00"  # Midnight UTC
+  default     = "00:00" # Midnight UTC
 }
 
 variable "fsx_copy_tags_to_backups" {
@@ -109,7 +109,7 @@ variable "fsx_copy_tags_to_backups" {
 variable "fsx_storage_throughput" {
   description = "Throughput (in MB/s) per unit of storage for the FSx Lustre file system."
   type        = number
-  default     = 125  # Example throughput
+  default     = 125 # Example throughput
   validation {
     condition     = contains([125, 250, 500, 1000], var.fsx_storage_throughput)
     error_message = "Storage throughput must be one of: 125, 250, 500, 1000 MB/s."
@@ -130,7 +130,7 @@ variable "fsx_data_compression" {
 variable "fsx_maintenance_window" {
   description = "Weekly maintenance window start time for FSx Lustre (UTC)."
   type        = string
-  default     = "7:09:00"  # Example maintenance time in UTC
+  default     = "7:09:00" # Example maintenance time in UTC
 }
 
 # FSx file system version and deployment type
@@ -143,7 +143,7 @@ variable "fsx_version" {
 variable "fsx_deployment_type" {
   description = "Deployment type for FSx Lustre (PERSISTENT_2, PERSISTENT_1 or SCRATCH_1)."
   type        = string
-  default     = "PERSISTENT_2"  # PERSISTENT_1 for long-term storage, SCRATCH_1 for temporary use
+  default     = "PERSISTENT_2" # PERSISTENT_1 for long-term storage, SCRATCH_1 for temporary use
 }
 
 # Tags for FSx Lustre file system
@@ -157,7 +157,7 @@ variable "fsx_extra_tags" {
 variable "fsx_mount_options" {
   description = "List of mount options for the FSx Lustre file system in Kubernetes."
   type        = list(string)
-  default     = ["flock"]  # Default mount option for file locking
+  default     = ["flock"] # Default mount option for file locking
 }
 
 # Flag to control whether the StorageClass should be created
@@ -171,7 +171,7 @@ variable "create_fsx_storage_class" {
 variable "fsx_reclaim_policy" {
   description = "Reclaim policy for the StorageClass (Retain or Delete)."
   type        = string
-  default     = "Delete"  # Can be set to "Retain" or "Delete"
+  default     = "Delete" # Can be set to "Retain" or "Delete"
 }
 
 # Variable to define the security group name if creating it

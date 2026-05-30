@@ -13,10 +13,10 @@ resource "aws_iam_role" "fsx_csi_driver_role" {
           Federated = "${var.aws_iam_openid_connect_provider_arn}"
         }
         Condition = {
-          StringEquals = {            
-            "${local.aws_iam_openid_connect_provider_extract_from_arn}:sub": "system:serviceaccount:kube-system:fsx-csi-controller-sa"
+          StringEquals = {
+            "${local.aws_iam_openid_connect_provider_extract_from_arn}:sub" : "system:serviceaccount:kube-system:fsx-csi-controller-sa"
           }
-        }        
+        }
 
       },
     ]
@@ -31,5 +31,5 @@ resource "aws_iam_policy_attachment" "fsx_full_access" {
 
 output "fsx_lustre_csi_iam_role_arn" {
   description = "EBS CSI IAM Role ARN"
-  value = aws_iam_role.fsx_csi_driver_role.arn
+  value       = aws_iam_role.fsx_csi_driver_role.arn
 }
